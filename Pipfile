@@ -4,8 +4,15 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+pydantic = "*"
+aiofiles = "*"
+aiohttp = "*"
+asyncio = "*"
 
 [dev-packages]
 
 [requires]
 python_version = "3.11"
+
+[scripts]
+start = "python ./src/main.py"
