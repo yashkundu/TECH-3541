@@ -16,7 +16,7 @@ async def getRestaurants(session: aiohttp.ClientSession, endpoint: str, lat: flo
 async def process(result):
     data = []
     for merchant in result.searchResult.searchMerchants:
-        data.append(Restaurant(restaurant_id=merchant.id, name_with_branch=merchant.address.name).dict)
+        data.append(Restaurant.from_dict(merchant))
     FILE_PATH = f"data/grab/{datetime.datetime.utcnow().strftime('%Y-%m-%d %H-%M-%S')}/{constants.LAT}-{constants.LNG}/restaurants.ndjson"
     if data:
         await helpers.writeToFileAsync(FILE_PATH, data)

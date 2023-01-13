@@ -2,7 +2,8 @@ from typing import List, Optional, TYPE_CHECKING
 from pydantic.dataclasses import dataclass
 from pydantic import validate_arguments
 from pydantic import Field, BaseModel
-
+import typing
+from dataclasses import fields
 
 if TYPE_CHECKING:
     from dataclasses import dataclass as _basemodel_decorator
@@ -98,7 +99,13 @@ class Restaurant(Address, RestaurantAdditional):
     image_url:  Optional[str]
     pickup_enabled:  Optional[bool]
     menu_info:  Optional[str]
-    
+
+    @classmethod
+    def from_dict(cls, obj: typing.Dict):
+        cls_fields = [fields.name for field in fields(cls)]
+        cur_fields = {k:v for k, v in obj.items() if k in cls_fields}
+        return cls(**cur_fields)
+
     def dict(self):
         return super().dict(exclude={'COUNTRY_CODES'})
         
